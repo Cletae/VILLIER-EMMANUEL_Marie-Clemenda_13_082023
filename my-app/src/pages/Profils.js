@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import {
-  useAccountResume,
+  // useAccountResume,
   useFirstNameAndLastName,
   useIsLogged,
   useUpdateName,
@@ -16,7 +16,7 @@ const Profil = () => {
   const [isNameEdited, setIsNameEdited] = useState(false);
   const names = useFirstNameAndLastName();
   const updateName = useUpdateName();
-  const body = useAccountResume();
+  // const body = useAccountResume();
 
   useEffect(() => {
     if (!isLogged()) {
@@ -83,7 +83,7 @@ const Profil = () => {
           </div>
         )}
       </div>
-      {body && body.map((value) => <Account data={value} />)}
+      <Account />
     </main>
   );
 };

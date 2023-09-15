@@ -1,9 +1,4 @@
 const Account = (props) => {
-  // const name = props.data.name;
-
-  const amount = props.data.amount;
-  // const totalTransaction = props.data.totalTransaction;
-  console.log(amount);
   return (
     <div className="userpage">
       <h2 className="sr-only">Accounts</h2>

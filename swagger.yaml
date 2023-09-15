@@ -1,114 +1,191 @@
-swagger: '2.0'
+swagger: "2.0"
 info:
-  title: Bank Argent API documentation
-  description: Contains all available API endpoints in this codebase
-  version: '1.0.0'
-  termsOfService: 'http://swagger.io/terms/'
+  description: Swagger - Phase 2 - Transaction
+  version: 1.0.0
+  title: "ArgentBank : API documentation for transaction"
+  termsOfService: http://swagger.io/terms/
 host: localhost:3001
 basePath: /api/v1
 schemes:
+  - https
   - http
 paths:
-  /user/login:
-    post:
-      tags:
-        - User Module
-      summary: Login
-      description: API for Login
-      parameters:
-        - in: body
-          name: body
-          description: Login Payload
-          required: true
-          schema:
-            $ref: '#/definitions/Login'
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Login Successfully
-          schema:
-            $ref: '#/definitions/LoginResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-  /user/signup:
-    post:
-      tags:
-        - User Module
-      summary: Signup
-      description: API for Signup
-      parameters:
-        - in: body
-          name: body
-          description: Signup Payload
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Signup Successfully
-          schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-  /user/profile:
-    post:
+  /transaction/{userId}/{month}:
+    get:
       security:
         - Bearer: []
       tags:
-        - User Module
-      summary: User Profile API
-      description: API for fetching a user profile
+        - Transactions for current month
+      summary: An identified user can see all his transactions for the current month.
+      description: >-
+        API for fetching the transactions in the current month for an identified
+        user
+      operationId: readAllTransaction
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
+          type: string
           required: true
-      produces:
-        - application/json
+        - in: path
+          name: userId
+          required: true
+          type: integer
+          description: an identified user's id
+        - in: path
+          name: month
+          required: true
+          type: string
+          description: current month
       responses:
-        '200':
-          description: User profile retrieved successully
+        "200":
+          description: Successfully get user's all transactions for the current month
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/Transaction"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
+          description: Internal Server Error
+  /transaction/create/{userId}:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Create a new transaction
+      summary: Add a new transaction information for an identified user.
+      description: API for adding a new transaction information for an identified user
+      operationId: createTransaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+        - in: path
+          name: userId
+          required: true
+          type: integer
+          description: a specific user's id
+        - in: body
+          name: body
+          description: Created transaction object
+          required: true
+          schema:
+            $ref: "#/definitions/Transaction"
+      responses:
+        "200":
+          description: Successfully created a transaction!
+          schema:
+            $ref: "#/definitions/Transaction"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /transaction/operation/{userId}/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Read, update and delete an existent transaction
+      summary: View the details of a specific transaction in another view.
+      description: API for fetching an existent transaction in detail
+      operationId: readUniqueTransaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+        - in: path
+          name: userId
+          required: true
+          type: integer
+          description: a specific user's id
+        - in: path
+          name: transactionId
+          required: true
+          type: integer
+          description: Transaction unique id
+      responses:
+        "200":
+          description: Successfully get an user's specific transaction!
+          schema:
+            $ref: "#/definitions/Transaction"
+        "400":
+          description: Invalid Fields
+        "500":
           description: Internal Server Error
     put:
       security:
         - Bearer: []
       tags:
-        - User Module
-      summary: User Profile API
-      description: API for updating a user profile
+        - Read, update and delete an existent transaction
+      summary: Edit a specific transaction information for un identified user.
+      description: API for updating an existent transaction
+      operationId: updateTransaction
       parameters:
         - in: header
           name: Authorization
           description: Attach Bearer JWT token
+          type: string
           required: true
+        - in: path
+          name: userId
+          required: true
+          type: integer
+          description: a specific user's id
+        - in: path
+          name: transactionId
+          required: true
+          type: integer
+          description: Transaction unique id
         - in: body
           name: body
-          description: Update user profile attributes
+          description: Updated transaction object
           required: true
           schema:
-            $ref: '#/definitions/UserProfile'
-      produces:
-        - application/json
+            $ref: "#/definitions/Transaction"
       responses:
-        '200':
-          description: User profile retrieved successully
+        "200":
+          description: Successfully updated an user's specific transaction!
           schema:
-            $ref: '#/definitions/ApiResponse'
-        '400':
+            $ref: "#/definitions/Transaction"
+        "400":
           description: Invalid Fields
-        '500':
+        "500":
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Read, update and delete an existent transaction
+      summary: Deletes a specific transaction information for un identified user.
+      description: API for deleting an existent transaction
+      operationId: deleteTransaction
+      parameters:
+        - in: header
+          name: Authorization
+          description: Attach Bearer JWT token
+          type: string
+          required: true
+        - in: path
+          name: userId
+          required: true
+          type: integer
+          description: a specific user's id
+        - in: path
+          name: transactionId
+          required: true
+          type: integer
+          description: Transaction unique id
+      responses:
+        "200":
+          description: Successfully delete an existent transaction!
+          schema:
+            $ref: "#/definitions/Transaction"
+        "400":
+          description: Invalid Fields
+        "500":
           description: Internal Server Error
 securityDefinitions:
   Bearer:
@@ -116,51 +193,42 @@ securityDefinitions:
     name: Authorization
     in: header
 definitions:
-  User:
-    properties:
-      email:
-        type: string
-        description: user email
-      password:
-        type: string
-        description: user password
-      firstName:
-        type: string
-        description: user first name
-      lastName:
-        type: string
-        description: user last name
-  Login:
-    properties:
-      email:
-        type: string
-        description: user email
-      password:
-        type: string
-        description: user password
-  ApiResponse:
+  Transaction:
     type: object
     properties:
       status:
         type: integer
+        example: 200
       message:
         type: string
-      body:
+        example: Success!
+      transactions:
         type: object
         properties:
           id:
             type: string
-          email:
+            format: int64
+            description: User id
+            example: 20
+          date:
             type: string
-  LoginResponse:
-    type: object
-    properties:
-      token:
-        type: string
-  UserProfile:
-    type: object
-    properties:
-      firstName:
-        type: string
-      lastName:
-        type: string
+            format: date-time
+            example: 2022-02-16T09:12:32.766Z
+          description:
+            type: string
+            example: Argent Bank notification
+          amount:
+            type: integer
+            example: 200
+          balance:
+            type: integer
+            example: 5000
+          type:
+            type: string
+            example: Electricity
+          category:
+            type: string
+            example: Household
+          notes:
+            type: string
+            example: Electricity bill for July 2022
