@@ -16,6 +16,9 @@ export const logSlice = createSlice({
       state.logged = false;
       state.token = "";
     },
+    editState: (state) => {
+      state.isEdit = !state.isEdit;
+    },
     setToken: (state, action) => {
       state.token = action.payload;
     },
@@ -25,6 +28,6 @@ export const logSlice = createSlice({
   },
 });
 
-export const { logIn, logOut, setToken, clearToken } = logSlice.actions;
+export const { logIn, logOut, editState, setToken, clearToken } = logSlice.actions;
 
 export default logSlice.reducer;

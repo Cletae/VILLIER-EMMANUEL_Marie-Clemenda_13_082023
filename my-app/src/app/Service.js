@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const BACKEND_URL = "http://localhost:3001/api/v1/";
-const LOCAL_URL = "http://localhost:3000/";
 
 const useLogin = () => {
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const useFirstNameAndLastName = () => {
           setData(data.body);
         });
     }
-  }, []);
+  });
   return data;
 };
 
@@ -72,21 +71,6 @@ const useUpdateName = () => {
   };
 };
 
-const useAccountResume = () => {
-  const isLogged = useIsLogged();
-  const [data, setData] = useState([]);
-  useEffect(() => {
-    if (isLogged()) {
-      fetch(LOCAL_URL)
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-        });
-    }
-  }, []);
-  return data;
-};
-
 const useIsLogged = () => {
   const log = useSelector((state) => state.log.logged);
   const token = useSelector((state) => state.log.token);
@@ -100,10 +84,4 @@ const useIsLogged = () => {
   return isLogged;
 };
 
-export {
-  useLogin,
-  useFirstNameAndLastName,
-  useUpdateName,
-  useAccountResume,
-  useIsLogged,
-};
+export { useLogin, useFirstNameAndLastName, useUpdateName, useIsLogged };

@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
 import {
   // useAccountResume,
   useFirstNameAndLastName,
   useIsLogged,
   useUpdateName,
 } from "../app/Service";
+import { editState } from "../app/LogSlice";
 import Account from "../components/Account";
 
 const Profil = () => {
@@ -17,6 +19,13 @@ const Profil = () => {
   const names = useFirstNameAndLastName();
   const updateName = useUpdateName();
   // const body = useAccountResume();
+
+  const dispatch = useDispatch();
+  const login = useSelector((state) => state.login);
+  const editToggle = () => {
+    dispatch(editState());
+  };
+
 
   useEffect(() => {
     if (!isLogged()) {
@@ -56,7 +65,7 @@ const Profil = () => {
         placeholder={names.lastName}
         onChange={(e) => setRenamedLastName(e.target.value)}
       />
-      <button className="edit-button" onClick={(e) => toggleIsNameEdited(e)}>
+      <button className="edit-button" onClick={editToggle} >
         Cancel
       </button>
       <input type="submit" className="edit-button" value="submit" />
