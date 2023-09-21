@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   // useAccountResume,
   useFirstNameAndLastName,
@@ -21,7 +21,6 @@ const Profil = () => {
   // const body = useAccountResume();
 
   const dispatch = useDispatch();
-  const login = useSelector((state) => state.login);
   const editToggle = () => {
     dispatch(editState());
   };

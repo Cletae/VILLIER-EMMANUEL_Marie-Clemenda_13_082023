@@ -45,7 +45,7 @@ const useFirstNameAndLastName = () => {
           setData(data.body);
         });
     }
-  });
+  }, [data]);
   return data;
 };
 
